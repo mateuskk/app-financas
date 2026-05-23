@@ -10,7 +10,6 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from '@/components/ui/select'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { createTransaction, updateTransaction } from '@/app/(app)/transactions/actions'
@@ -28,6 +27,7 @@ export function TransactionForm({ transaction }: TransactionFormProps) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [type, setType] = useState<TransactionType>(transaction?.type ?? 'expense')
+  const [category, setCategory] = useState<string>(transaction?.category ?? '')
 
   const categories = getCategoriesForType(type)
   const defaultDate = transaction?.date ?? toDateInputValue(new Date())
@@ -83,7 +83,7 @@ export function TransactionForm({ transaction }: TransactionFormProps) {
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
-                  onClick={() => setType('income')}
+                  onClick={() => { setType('income'); setCategory('') }}
                   className={`py-2 px-4 rounded-lg border text-sm font-medium transition-colors ${
                     type === 'income'
                       ? 'bg-emerald-500 text-white border-emerald-500'
@@ -94,7 +94,7 @@ export function TransactionForm({ transaction }: TransactionFormProps) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setType('expense')}
+                  onClick={() => { setType('expense'); setCategory('') }}
                   className={`py-2 px-4 rounded-lg border text-sm font-medium transition-colors ${
                     type === 'expense'
                       ? 'bg-rose-500 text-white border-rose-500'
@@ -139,12 +139,16 @@ export function TransactionForm({ transaction }: TransactionFormProps) {
               <Label>Categoria</Label>
               <Select
                 name="category"
-                defaultValue={transaction?.category}
-                key={type}
+                value={category}
+                onValueChange={(v) => v && setCategory(v)}
                 required
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Selecione uma categoria" />
+                  <span className={`flex-1 text-left text-sm truncate ${!category ? 'text-muted-foreground' : ''}`}>
+                    {category
+                      ? (categories.find((c) => c.value === category)?.label ?? category)
+                      : 'Selecione uma categoria'}
+                  </span>
                 </SelectTrigger>
                 <SelectContent>
                   {categories.map(({ value, label }) => (
