@@ -23,6 +23,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -87,7 +88,8 @@ export function Navbar({ userEmail }: NavbarProps) {
         </DropdownMenu>
 
         {/* Right side */}
-        <div className="flex items-center gap-2 ml-auto">
+        <div className="flex items-center gap-1 ml-auto">
+          <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger
               className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }), 'rounded-full')}
