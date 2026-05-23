@@ -7,7 +7,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => setMounted(true), [])
@@ -18,11 +18,20 @@ export function ThemeToggle() {
     )
   }
 
-  const isDark = theme === 'dark'
+  const isDark = resolvedTheme === 'dark'
+
+  function handleToggle() {
+    const next = isDark ? 'light' : 'dark'
+    if (!document.startViewTransition) {
+      setTheme(next)
+      return
+    }
+    document.startViewTransition(() => setTheme(next))
+  }
 
   return (
     <button
-      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      onClick={handleToggle}
       className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }), 'rounded-full')}
       aria-label={isDark ? 'Mudar para tema claro' : 'Mudar para tema escuro'}
     >

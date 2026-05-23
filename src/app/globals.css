@@ -179,3 +179,21 @@
     @apply font-sans;
   }
 }
+
+/* ─── Animação de troca de tema (View Transitions API) ─── */
+::view-transition-old(root) {
+  animation: 300ms ease-in-out fade-out-theme;
+}
+::view-transition-new(root) {
+  animation: 300ms ease-in-out fade-in-theme;
+}
+
+@keyframes fade-out-theme {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes fade-in-theme {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
