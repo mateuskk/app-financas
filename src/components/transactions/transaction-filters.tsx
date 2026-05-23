@@ -7,7 +7,6 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from '@/components/ui/select'
 import { buttonVariants } from '@/components/ui/button'
 import { ALL_CATEGORIES } from '@/lib/categories'
@@ -32,9 +31,31 @@ const MONTHS = [
 const currentYear = new Date().getFullYear()
 const YEARS = Array.from({ length: 5 }, (_, i) => currentYear - i)
 
+const TYPE_LABELS: Record<string, string> = {
+  income: 'Receitas',
+  expense: 'Despesas',
+}
+
 export function TransactionFilters() {
   const router = useRouter()
   const searchParams = useSearchParams()
+
+  const monthValue = searchParams.get('month') ?? 'all'
+  const yearValue = searchParams.get('year') ?? 'all'
+  const typeValue = searchParams.get('type') ?? 'all'
+  const categoryValue = searchParams.get('category') ?? 'all'
+
+  const monthLabel = monthValue === 'all'
+    ? 'Todos os meses'
+    : (MONTHS.find((m) => m.value === monthValue)?.label ?? monthValue)
+
+  const yearLabel = yearValue === 'all' ? 'Todos os anos' : yearValue
+
+  const typeLabel = typeValue === 'all' ? 'Todos os tipos' : (TYPE_LABELS[typeValue] ?? typeValue)
+
+  const categoryLabel = categoryValue === 'all'
+    ? 'Todas as categorias'
+    : (ALL_CATEGORIES.find((c) => c.value === categoryValue)?.label ?? categoryValue)
 
   const updateFilter = useCallback(
     (key: string, value: string | null) => {
@@ -55,11 +76,11 @@ export function TransactionFilters() {
   return (
     <div className="flex flex-wrap gap-3 items-center">
       <Select
-        value={searchParams.get('month') ?? 'all'}
+        value={monthValue}
         onValueChange={(v) => updateFilter('month', v)}
       >
-        <SelectTrigger className="w-36 bg-card">
-          <SelectValue placeholder="Mês" />
+        <SelectTrigger className="w-40 bg-card">
+          <span className="flex-1 text-left text-sm truncate">{monthLabel}</span>
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="all">Todos os meses</SelectItem>
@@ -72,14 +93,14 @@ export function TransactionFilters() {
       </Select>
 
       <Select
-        value={searchParams.get('year') ?? 'all'}
+        value={yearValue}
         onValueChange={(v) => updateFilter('year', v)}
       >
-        <SelectTrigger className="w-28 bg-card">
-          <SelectValue placeholder="Ano" />
+        <SelectTrigger className="w-32 bg-card">
+          <span className="flex-1 text-left text-sm truncate">{yearLabel}</span>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Todos</SelectItem>
+          <SelectItem value="all">Todos os anos</SelectItem>
           {YEARS.map((y) => (
             <SelectItem key={y} value={String(y)}>
               {y}
@@ -89,28 +110,28 @@ export function TransactionFilters() {
       </Select>
 
       <Select
-        value={searchParams.get('type') ?? 'all'}
+        value={typeValue}
         onValueChange={(v) => updateFilter('type', v)}
       >
-        <SelectTrigger className="w-32 bg-card">
-          <SelectValue placeholder="Tipo" />
+        <SelectTrigger className="w-36 bg-card">
+          <span className="flex-1 text-left text-sm truncate">{typeLabel}</span>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Todos</SelectItem>
+          <SelectItem value="all">Todos os tipos</SelectItem>
           <SelectItem value="income">Receitas</SelectItem>
           <SelectItem value="expense">Despesas</SelectItem>
         </SelectContent>
       </Select>
 
       <Select
-        value={searchParams.get('category') ?? 'all'}
+        value={categoryValue}
         onValueChange={(v) => updateFilter('category', v)}
       >
-        <SelectTrigger className="w-44 bg-card">
-          <SelectValue placeholder="Categoria" />
+        <SelectTrigger className="w-48 bg-card">
+          <span className="flex-1 text-left text-sm truncate">{categoryLabel}</span>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Todas categorias</SelectItem>
+          <SelectItem value="all">Todas as categorias</SelectItem>
           {ALL_CATEGORIES.map(({ value, label }) => (
             <SelectItem key={value} value={value}>
               {label}
