@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { TransactionList } from '@/components/transactions/transaction-list'
 import { TransactionFilters } from '@/components/transactions/transaction-filters'
+import { ExportCsvButton } from '@/components/transactions/export-csv-button'
 import { buttonVariants } from '@/components/ui/button'
 import type { Transaction } from '@/lib/supabase/types'
 import { PlusCircle } from 'lucide-react'
@@ -65,10 +66,13 @@ export default async function TransactionsPage({ searchParams }: TransactionsPag
             {transactions.length} transação(ões) encontrada(s)
           </p>
         </div>
-        <Link href="/transactions/new" className={cn(buttonVariants())}>
-          <PlusCircle className="h-4 w-4 mr-2" />
-          Nova transação
-        </Link>
+        <div className="flex items-center gap-2">
+          <ExportCsvButton transactions={transactions} />
+          <Link href="/transactions/new" className={cn(buttonVariants())}>
+            <PlusCircle className="h-4 w-4 mr-2" />
+            Nova transação
+          </Link>
+        </div>
       </div>
 
       <Suspense>
