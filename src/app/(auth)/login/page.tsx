@@ -57,7 +57,7 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="email">E-mail</Label>
+            <Label htmlFor="email" className="text-slate-700 font-semibold">E-mail</Label>
             <Input
               id="email"
               name="email"
@@ -65,11 +65,12 @@ export default function LoginPage() {
               placeholder="seu@email.com"
               required
               autoComplete="email"
+              className="text-slate-800 placeholder:text-slate-400"
             />
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="password">Senha</Label>
+            <Label htmlFor="password" className="text-slate-700 font-semibold">Senha</Label>
             <Input
               id="password"
               name="password"
@@ -78,6 +79,7 @@ export default function LoginPage() {
               required
               autoComplete="current-password"
               minLength={6}
+              className="text-slate-800 placeholder:text-slate-400"
             />
           </div>
 
