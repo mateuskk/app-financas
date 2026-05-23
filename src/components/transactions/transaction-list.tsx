@@ -27,7 +27,7 @@ import { formatCurrency, formatDate } from '@/lib/format'
 import type { Transaction } from '@/lib/supabase/types'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
-import { Pencil, Trash2 } from 'lucide-react'
+import { ArrowUpRight, ArrowDownRight, Pencil, Trash2 } from 'lucide-react'
 
 interface TransactionListProps {
   transactions: Transaction[]
@@ -89,9 +89,16 @@ export function TransactionList({ transactions }: TransactionListProps) {
                   <Badge variant="secondary">{getCategoryLabel(t.category)}</Badge>
                 </TableCell>
                 <TableCell>
-                  <Badge variant={t.type === 'income' ? 'default' : 'destructive'}>
-                    {t.type === 'income' ? 'Receita' : 'Despesa'}
-                  </Badge>
+                  <div className="flex items-center gap-1.5">
+                    <div className={`rounded-md p-1 ${t.type === 'income' ? 'bg-emerald-100 dark:bg-emerald-950' : 'bg-rose-100 dark:bg-rose-950'}`}>
+                      {t.type === 'income'
+                        ? <ArrowUpRight className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                        : <ArrowDownRight className="h-3.5 w-3.5 text-rose-600 dark:text-rose-400" />}
+                    </div>
+                    <span className={`text-sm font-medium ${t.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+                      {t.type === 'income' ? 'Receita' : 'Despesa'}
+                    </span>
+                  </div>
                 </TableCell>
                 <TableCell
                   className={`text-right font-semibold ${
@@ -131,6 +138,16 @@ export function TransactionList({ transactions }: TransactionListProps) {
           <div key={t.id} className="bg-card border rounded-lg p-4">
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  <div className={`rounded-md p-0.5 ${t.type === 'income' ? 'bg-emerald-100 dark:bg-emerald-950' : 'bg-rose-100 dark:bg-rose-950'}`}>
+                    {t.type === 'income'
+                      ? <ArrowUpRight className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                      : <ArrowDownRight className="h-3 w-3 text-rose-600 dark:text-rose-400" />}
+                  </div>
+                  <span className={`text-xs font-medium ${t.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+                    {t.type === 'income' ? 'Receita' : 'Despesa'}
+                  </span>
+                </div>
                 <p className="font-medium truncate">{t.description}</p>
                 <p className="text-xs text-muted-foreground mt-0.5">{formatDate(t.date)}</p>
                 <Badge variant="secondary" className="mt-1 text-xs">
