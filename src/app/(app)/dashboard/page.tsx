@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { SummaryCards } from '@/components/dashboard/summary-cards'
 import { ExpenseChart } from '@/components/dashboard/expense-chart'
+import { IncomeChart } from '@/components/dashboard/income-chart'
 import { RecentTransactions } from '@/components/dashboard/recent-transactions'
 import { PeriodSelector } from '@/components/dashboard/period-selector'
 import { getMonthName } from '@/lib/format'
@@ -57,7 +58,18 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       return acc
     }, {})
 
+  const incomeByCategory = allTransactions
+    .filter((t) => t.type === 'income')
+    .reduce<Record<string, number>>((acc, t) => {
+      acc[t.category] = (acc[t.category] ?? 0) + t.amount
+      return acc
+    }, {})
+
   const chartData = Object.entries(expenseByCategory)
+    .map(([category, total]) => ({ category: category as Category, total }))
+    .sort((a, b) => b.total - a.total)
+
+  const incomeChartData = Object.entries(incomeByCategory)
     .map(([category, total]) => ({ category: category as Category, total }))
     .sort((a, b) => b.total - a.total)
 
@@ -86,8 +98,10 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <ExpenseChart data={chartData} />
-        <RecentTransactions transactions={recentTransactions} />
+        <IncomeChart data={incomeChartData} />
       </div>
+
+      <RecentTransactions transactions={recentTransactions} />
     </div>
   )
 }
