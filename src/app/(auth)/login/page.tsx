@@ -37,21 +37,21 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-100 px-4">
       {/* Logo acima do card */}
       <div className="flex items-center gap-2.5 mb-8">
         <div className="bg-primary rounded-xl p-2">
           <TrendingUp className="h-5 w-5 text-primary-foreground" />
         </div>
-        <span className="text-xl font-bold text-foreground tracking-tight">
+        <span className="text-xl font-bold text-slate-800 tracking-tight">
           Meu Financeiro
         </span>
       </div>
 
       {/* Card */}
-      <div className="w-full max-w-sm bg-card rounded-2xl shadow-md px-8 py-8 border border-border/50">
-        <h1 className="text-2xl font-bold text-foreground mb-1">Entrar</h1>
-        <p className="text-sm text-muted-foreground mb-6">
+      <div className="w-full max-w-sm bg-white rounded-2xl shadow-md px-8 py-8 border border-slate-200">
+        <h1 className="text-2xl font-bold text-slate-800 mb-1">Entrar</h1>
+        <p className="text-sm text-slate-500 mb-6">
           Acesse sua conta para gerenciar suas finanças
         </p>
 
@@ -86,7 +86,7 @@ export default function LoginPage() {
           </Button>
         </form>
 
-        <p className="mt-5 text-center text-sm text-muted-foreground">
+        <p className="mt-5 text-center text-sm text-slate-500">
           Não tem conta?{' '}
           <Link href="/register" className="text-primary font-semibold hover:underline underline-offset-4">
             Criar conta grátis
