@@ -3,7 +3,6 @@
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { Button } from '@/components/ui/button'
 import { buttonVariants } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -13,11 +12,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
+  ArrowLeftRight,
   LayoutDashboard,
-  List,
   LogOut,
   Menu,
-  PlusCircle,
   TrendingUp,
   User,
 } from 'lucide-react'
@@ -27,8 +25,7 @@ import { ThemeToggle } from '@/components/theme-toggle'
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/transactions', label: 'Transações', icon: List },
-  { href: '/transactions/new', label: 'Nova transação', icon: PlusCircle },
+  { href: '/transactions', label: 'Transações', icon: ArrowLeftRight },
 ]
 
 interface NavbarProps {
@@ -47,57 +44,89 @@ export function Navbar({ userEmail }: NavbarProps) {
     router.refresh()
   }
 
+  function isActive(href: string) {
+    if (href === '/dashboard') return pathname === '/dashboard'
+    return pathname.startsWith(href)
+  }
+
   return (
     <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-sm">
-      <div className="flex items-center justify-between h-14 px-4">
-        {/* Logo — mobile only */}
-        <div className="flex items-center gap-2 md:hidden">
-          <div className="bg-primary rounded-lg p-1">
+      <div className="flex items-center h-14 px-4 md:px-6 gap-4">
+
+        {/* Logo */}
+        <Link href="/dashboard" className="flex items-center gap-2 shrink-0">
+          <div className="bg-primary rounded-lg p-1.5">
             <TrendingUp className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="font-bold">Meu Financeiro</span>
-        </div>
+          <span className="font-bold hidden sm:block">Meu Financeiro</span>
+        </Link>
 
-        {/* Mobile menu */}
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            className={cn(
-              buttonVariants({ variant: 'ghost', size: 'icon' }),
-              'md:hidden'
-            )}
-          >
-            <Menu className="h-5 w-5" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-48">
-            {navItems.map(({ href, label, icon: Icon }) => (
-              <DropdownMenuItem
-                key={href}
-                onClick={() => router.push(href)}
-                className={cn(pathname === href && 'font-medium')}
-              >
-                <Icon className="h-4 w-4" />
-                {label}
-              </DropdownMenuItem>
-            ))}
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout} variant="destructive">
-              <LogOut className="h-4 w-4" />
-              Sair
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {/* Nav links — desktop, centro */}
+        <nav className="hidden md:flex items-center gap-1 mx-auto">
+          {navItems.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className={cn(
+                'flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors',
+                isActive(href)
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+              )}
+            >
+              <Icon className="h-4 w-4" />
+              {label}
+            </Link>
+          ))}
+        </nav>
 
-        {/* Right side */}
-        <div className="flex items-center gap-1 ml-auto">
+        {/* Direita */}
+        <div className="flex items-center gap-1 ml-auto md:ml-0">
           <ThemeToggle />
+
+          {/* Usuário — desktop */}
           <DropdownMenu>
             <DropdownMenuTrigger
-              className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }), 'rounded-full')}
+              className={cn(
+                buttonVariants({ variant: 'ghost' }),
+                'hidden md:flex items-center gap-2 rounded-full px-3'
+              )}
             >
-              <User className="h-4 w-4" />
+              <User className="h-4 w-4 shrink-0" />
+              <span className="text-sm max-w-[180px] truncate">{userEmail}</span>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <div className="px-3 py-2">
+                <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
+              </div>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleLogout} variant="destructive">
+                <LogOut className="h-4 w-4" />
+                Sair
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Menu hambúrguer — mobile */}
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }), 'md:hidden')}
+            >
+              <Menu className="h-5 w-5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-52">
+              {navItems.map(({ href, label, icon: Icon }) => (
+                <DropdownMenuItem
+                  key={href}
+                  onClick={() => router.push(href)}
+                  className={cn(isActive(href) && 'font-semibold text-primary')}
+                >
+                  <Icon className="h-4 w-4" />
+                  {label}
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuSeparator />
+              <div className="px-3 py-1.5">
                 <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
               </div>
               <DropdownMenuSeparator />
