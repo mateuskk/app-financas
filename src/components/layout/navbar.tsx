@@ -15,7 +15,6 @@ import {
   ArrowLeftRight,
   LayoutDashboard,
   LogOut,
-  Menu,
   TrendingUp,
   User,
 } from 'lucide-react'
@@ -61,72 +60,42 @@ export function Navbar({ userEmail }: NavbarProps) {
           <span className="font-bold hidden sm:block">Meu Financeiro</span>
         </Link>
 
-        {/* Nav links — desktop, centro */}
-        <nav className="hidden md:flex items-center gap-1 mx-auto">
+        {/* Nav links — desktop: centro | mobile: centro também */}
+        <nav className="flex items-center gap-1 mx-auto">
           {navItems.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
               href={href}
               className={cn(
-                'flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors',
+                'flex items-center gap-2 px-3 md:px-4 py-1.5 rounded-lg text-sm font-medium transition-colors',
                 isActive(href)
                   ? 'bg-primary/10 text-primary'
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground'
               )}
             >
               <Icon className="h-4 w-4" />
-              {label}
+              <span>{label}</span>
             </Link>
           ))}
         </nav>
 
         {/* Direita */}
-        <div className="flex items-center gap-1 ml-auto md:ml-0">
+        <div className="flex items-center gap-1">
           <ThemeToggle />
 
-          {/* Usuário — desktop */}
+          {/* Usuário — desktop: nome + email | mobile: só ícone */}
           <DropdownMenu>
             <DropdownMenuTrigger
               className={cn(
                 buttonVariants({ variant: 'ghost' }),
-                'hidden md:flex items-center gap-2 rounded-full px-3'
+                'flex items-center gap-2 rounded-full px-2 md:px-3'
               )}
             >
               <User className="h-4 w-4 shrink-0" />
-              <span className="text-sm max-w-[180px] truncate">{userEmail}</span>
+              <span className="hidden md:inline text-sm max-w-[180px] truncate">{userEmail}</span>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <div className="px-3 py-2">
-                <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
-              </div>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleLogout} variant="destructive">
-                <LogOut className="h-4 w-4" />
-                Sair
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          {/* Menu hambúrguer — mobile */}
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }), 'md:hidden')}
-            >
-              <Menu className="h-5 w-5" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-52">
-              {navItems.map(({ href, label, icon: Icon }) => (
-                <DropdownMenuItem
-                  key={href}
-                  onClick={() => router.push(href)}
-                  className={cn(isActive(href) && 'font-semibold text-primary')}
-                >
-                  <Icon className="h-4 w-4" />
-                  {label}
-                </DropdownMenuItem>
-              ))}
-              <DropdownMenuSeparator />
-              <div className="px-3 py-1.5">
                 <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
               </div>
               <DropdownMenuSeparator />
