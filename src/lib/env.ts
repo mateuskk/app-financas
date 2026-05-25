@@ -1,15 +1,11 @@
-const required = [
-  "NEXT_PUBLIC_SUPABASE_URL",
-  "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-] as const;
-
-for (const key of required) {
-  if (!process.env[key]) {
-    throw new Error(
-      `Variável de ambiente obrigatória ausente: ${key}\n` +
-        "Configure as variáveis no painel da Vercel (Project > Settings > Environment Variables)."
-    );
-  }
+if (
+  !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+  !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+) {
+  throw new Error(
+    "Variáveis de ambiente obrigatórias ausentes: NEXT_PUBLIC_SUPABASE_URL e/ou NEXT_PUBLIC_SUPABASE_ANON_KEY.\n" +
+      "Configure-as no painel da Vercel (Project > Settings > Environment Variables)."
+  );
 }
 
 export const env = {
