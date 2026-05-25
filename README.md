@@ -35,13 +35,6 @@ npm run dev
 
 Acesse http://localhost:3000
 
-### 4. Deploy na Vercel
-
-1. Suba o projeto no GitHub
-2. Importe no vercel.com
-3. Adicione as variáveis de ambiente no painel da Vercel
-4. Deploy automático!
-
 ## Funcionalidades
 
 - Autenticação via Supabase Auth (email/senha)
