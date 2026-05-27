@@ -197,3 +197,73 @@
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+@keyframes hero-breathe {
+  0%   { transform: translate3d(0, 0, 0) scale(1.00); }
+  100% { transform: translate3d(-2.5%, -1.5%, 0) scale(1.06); }
+}
+@keyframes wave-flow {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes hero-blob1 {
+  0%   { transform: translate3d(0,    0,    0) scale(1.00); }
+  33%  { transform: translate3d(20%,  14%,  0) scale(1.15); }
+  66%  { transform: translate3d(10%,  28%,  0) scale(1.05); }
+  100% { transform: translate3d(0,    0,    0) scale(1.00); }
+}
+@keyframes hero-blob2 {
+  0%   { transform: translate3d(0,    0,    0) scale(1.00); }
+  33%  { transform: translate3d(-18%, 10%,  0) scale(1.18); }
+  66%  { transform: translate3d(-10%, -8%,  0) scale(1.05); }
+  100% { transform: translate3d(0,    0,    0) scale(1.00); }
+}
+@keyframes hero-blob3 {
+  0%   { transform: translate3d(0,    0,    0) scale(.95); }
+  33%  { transform: translate3d(14%,  18%,  0) scale(1.20); }
+  66%  { transform: translate3d(-6%,  10%,  0) scale(1.05); }
+  100% { transform: translate3d(0,    0,    0) scale(.95); }
+}
+@keyframes hero-float-y {
+  0%   { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-6px) rotate(-0.25deg); }
+}
+@keyframes auth-pop {
+  0%   { transform: scale(0.4); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes auth-spin {
+  to { transform: rotate(360deg); }
+}
+
+.hero-breathe {
+  animation: hero-breathe 28s ease-in-out infinite alternate;
+}
+.hero-waves-back {
+  position: absolute; left: 0; right: 0; bottom: 28%;
+  width: 200%; height: 120px;
+  display: flex; z-index: 0; pointer-events: none;
+  will-change: transform; opacity: .55;
+  animation: wave-flow 34s linear infinite reverse;
+}
+.hero-waves-front {
+  position: absolute; left: 0; right: 0; bottom: 22%;
+  width: 200%; height: 140px;
+  display: flex; z-index: 0; pointer-events: none;
+  will-change: transform;
+  animation: wave-flow 22s linear infinite;
+}
+.hero-waves-back svg,
+.hero-waves-front svg { width: 50%; height: 100%; flex: 0 0 auto; display: block; }
+.hero-blob-1 { animation: hero-blob1 41s linear infinite; will-change: transform; }
+.hero-blob-2 { animation: hero-blob2 53s linear infinite; will-change: transform; }
+.hero-blob-3 { animation: hero-blob3 47s linear infinite; will-change: transform; }
+.hero-dash-wrap { animation: hero-float-y 6s ease-in-out infinite alternate; }
+.auth-pop   { animation: auth-pop .35s cubic-bezier(.2,1.4,.4,1) both; }
+.auth-spin  { animation: auth-spin .7s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-blob-1, .hero-blob-2, .hero-blob-3,
+  .hero-breathe, .hero-dash-wrap,
+  .hero-waves-back, .hero-waves-front { animation: none !important; }
+}
