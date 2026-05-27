@@ -6,7 +6,8 @@ import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { TrendingUp, MailCheck } from 'lucide-react'
+import { MailCheck } from 'lucide-react'
+import { AppLogo } from '@/components/logo'
 import { toast } from 'sonner'
 
 function translateError(message: string): string {
@@ -61,12 +62,7 @@ export default function RegisterPage() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-slate-100 px-4">
         <div className="flex items-center gap-2.5 mb-8">
-          <div className="bg-primary rounded-xl p-2">
-            <TrendingUp className="h-5 w-5 text-primary-foreground" />
-          </div>
-          <span className="text-xl font-bold text-slate-800 tracking-tight">
-            Meu Financeiro
-          </span>
+          <AppLogo />
         </div>
 
         <div className="w-full max-w-sm bg-white rounded-2xl shadow-md px-8 py-8 border border-slate-200 text-center">
@@ -97,12 +93,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-100 px-4">
       <div className="flex items-center gap-2.5 mb-8">
-        <div className="bg-primary rounded-xl p-2">
-          <TrendingUp className="h-5 w-5 text-primary-foreground" />
-        </div>
-        <span className="text-xl font-bold text-slate-800 tracking-tight">
-          Meu Financeiro
-        </span>
+        <AppLogo />
       </div>
 
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-md px-8 py-8 border border-slate-200">

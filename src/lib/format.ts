@@ -20,9 +20,3 @@ export function getMonthName(month: number): string {
     new Date(2000, month - 1, 1)
   )
 }
-
-export function getMonthYear(dateStr: string): string {
-  const [year, month] = dateStr.split('-').map(Number)
-  const date = new Date(year, month - 1, 1)
-  return new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' }).format(date)
-}

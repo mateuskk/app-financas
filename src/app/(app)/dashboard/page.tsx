@@ -2,8 +2,7 @@ import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { SummaryCards } from '@/components/dashboard/summary-cards'
-import { ExpenseChart } from '@/components/dashboard/expense-chart'
-import { IncomeChart } from '@/components/dashboard/income-chart'
+import { CategoryChart } from '@/components/dashboard/category-chart'
 import { RecentTransactions } from '@/components/dashboard/recent-transactions'
 import { PeriodSelector } from '@/components/dashboard/period-selector'
 import { getMonthName } from '@/lib/format'
@@ -97,8 +96,8 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <ExpenseChart data={chartData} />
-        <IncomeChart data={incomeChartData} />
+        <CategoryChart title="Despesas por categoria" emptyMessage="Nenhuma despesa no período" data={chartData} />
+        <CategoryChart title="Receitas por categoria" emptyMessage="Nenhuma receita no período" data={incomeChartData} />
       </div>
 
       <RecentTransactions transactions={recentTransactions} />

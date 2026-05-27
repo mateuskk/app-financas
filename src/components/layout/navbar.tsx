@@ -15,9 +15,9 @@ import {
   ArrowLeftRight,
   LayoutDashboard,
   LogOut,
-  TrendingUp,
   User,
 } from 'lucide-react'
+import { AppLogo } from '@/components/logo'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -54,10 +54,7 @@ export function Navbar({ userEmail }: NavbarProps) {
 
         {/* Logo */}
         <Link href="/dashboard" className="flex items-center gap-2 shrink-0">
-          <div className="bg-primary rounded-lg p-1.5">
-            <TrendingUp className="h-4 w-4 text-primary-foreground" />
-          </div>
-          <span className="font-bold hidden sm:block">Meu Financeiro</span>
+          <AppLogo size="sm" textClassName="font-bold hidden sm:block" />
         </Link>
 
         {/* Nav links — desktop: centro | mobile: centro também */}

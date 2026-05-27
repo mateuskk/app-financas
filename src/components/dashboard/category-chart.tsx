@@ -18,7 +18,9 @@ interface ChartData {
   total: number
 }
 
-interface ExpenseChartProps {
+interface CategoryChartProps {
+  title: string
+  emptyMessage: string
   data: ChartData[]
 }
 
@@ -40,16 +42,16 @@ const CustomTooltip = ({
   return null
 }
 
-export function ExpenseChart({ data }: ExpenseChartProps) {
+export function CategoryChart({ title, emptyMessage, data }: CategoryChartProps) {
   if (data.length === 0) {
     return (
       <Card className="border-0 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-base">Despesas por categoria</CardTitle>
+          <CardTitle className="text-base">{title}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center h-48 text-muted-foreground text-sm">
-            Nenhuma despesa no período
+            {emptyMessage}
           </div>
         </CardContent>
       </Card>
@@ -65,7 +67,7 @@ export function ExpenseChart({ data }: ExpenseChartProps) {
   return (
     <Card className="border-0 shadow-sm">
       <CardHeader>
-        <CardTitle className="text-base">Despesas por categoria</CardTitle>
+        <CardTitle className="text-base">{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={280}>
